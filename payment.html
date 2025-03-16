@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Page</title>
+    <link rel="stylesheet" href="payment.css">
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+</head>
+<body>
+    <h1>Payment Page</h1>
+
+    <!-- Card Payment Form -->
+    <form id="card-payment-form" method="POST" action="/pay_with_card">
+        <input type="text" name="payment_method" id="card-element" placeholder="Enter card details">
+        <button type="submit">Pay with Card</button>
+    </form>
+
+    <!-- UPI Payment Form -->
+    <form id="upi-payment-form" method="POST" action="/pay_with_upi">
+        <button type="submit">Pay with UPI</button>
+    </form>
+
+    <script>
+        // Example: Handling Stripe payment with frontend integration
+        var stripe = Stripe("pk_test_XXXXXXXXXXXXXXXXXXXXXXXXX");  // Your Stripe Public Key here
+        
+        var elements = stripe.elements();
+        var card = elements.create('card');
+        card.mount('#card-element');
+        
+        var form = document.getElementById('card-payment-form');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            stripe.createPaymentMethod('card', card).then(function(result) {
+                if (result.error) {
+                    console.log(result.error.message);
+                } else {
+                    fetch('/pay_with_card', {
+                        method: 'POST',
+                        body: JSON.stringify({ payment_method: result.paymentMethod.id }),
+                        headers: { 'Content-Type': 'application/json' }
+                    }).then(response => response.json())
+                      .then(data => {
+                          if (data.client_secret) {
+                              stripe.confirmCardPayment(data.client_secret);
+                          }
+                      });
+                }
+            });
+        });
+    </script>
+
+    <script>
+        // Razorpay UPI Payment Form handling
+        var upiForm = document.getElementById('upi-payment-form');
+        upiForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            fetch('/pay_with_upi', {
+                method: 'POST',
+            }).then(response => response.json())
+              .then(data => {
+                  if (data.payment_url) {
+                      window.location.href = data.payment_url;
+                  } else {
+                      alert('Payment failed: ' + data.error);
+                  }
+              });
+        });
+    </script>
+</body>
+</html>

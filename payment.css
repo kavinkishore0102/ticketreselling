@@ -1,0 +1,133 @@
+/* Reset some basic styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Styling */
+h1 {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Input Field Styling */
+input[type="text"] {
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus {
+    border-color: #1e88e5;
+    outline: none;
+}
+
+/* Buttons Styling */
+button {
+    background-color: #1e88e5; /* Flipkart Blue */
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+button:hover {
+    background-color: #1565c0; /* Darker Blue on Hover */
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Payment Option Container */
+.payment-option-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Payment Option Card */
+.payment-option {
+    background-color: #f1f1f1;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.payment-option img {
+    max-height: 40px;
+    margin-right: 15px;
+}
+
+.payment-option span {
+    font-size: 18px;
+    color: #333;
+    font-weight: 500;
+}
+
+/* Payment Success / Error */
+.payment-status {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.payment-status.success {
+    color: #388e3c; /* Green */
+}
+
+.payment-status.error {
+    color: #d32f2f; /* Red */
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    h1 {
+        font-size: 20px;
+    }
+    button {
+        font-size: 14px;
+    }
+}
