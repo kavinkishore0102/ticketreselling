@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from .forms import TicketForm
 
+def home(request):
+    return render(request,'home.html')
+
 def sell_ticket(request):
     if request.method == 'POST':
         form = TicketForm(request.POST, request.FILES)
