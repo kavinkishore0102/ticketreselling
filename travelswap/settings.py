@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "tickets",
 ]
 
 MIDDLEWARE = [
@@ -56,7 +57,6 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR / 'templates')],
-        "DIRS": [],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -80,7 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ticketReslling',
         'USER': 'root',
-        'PASSWORD': 'kavin@0102',
+        'PASSWORD': 'Vivitha@17',
         'HOST': 'localhost',
         'PORT': '3306',
     }
