@@ -13,9 +13,9 @@
     <header>
         <h1>Travel<span>Swap</span></h1>
         <nav>
-            <a href="home.html">Home</a>
+            <a href="{% url 'home' %}">Home</a>
             <a href="{% url 'sell_ticket' %}">Sell Tickets</a>
-            <a href="about.html">About</a>
+            <a href="{% url 'about' %}">About</a>
             <div class="auth-buttons">
                 <a href="login.html">
                     <button class="login">Login</button>

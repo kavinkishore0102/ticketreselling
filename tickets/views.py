@@ -17,3 +17,6 @@ def sell_ticket(request):
 
 def success_view(request):
     return render(request, 'success.html') 
+
+def about(request):
+    return render(request, 'about.html')
