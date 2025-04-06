@@ -35,8 +35,8 @@
             <input type="text" placeholder="To Destination">
             <input type="date">
             <select>
-                <option>Flight</option>
                 <option>Bus</option>
+                <option>Flight</option>
             </select>
             <button>Search Tickets</button>
         </div>
@@ -45,37 +45,28 @@
     <section class="featured">
         <h3>Featured Tickets</h3>
         <div class="ticket-list">
-            <div class="ticket" data-type="Bus">
-                <h4>Erode → Chennai</h4>
-                <p><strong>Class:</strong> First Class</p>
-                <p><strong>Date:</strong> 15 Feb 2025</p>
-                <p><strong>Price:</strong> $150</p>
-                <button class="buy-btn">Buy Now</button>
-            </div>
-            <div class="ticket" data-type="Flight">
-                <h4>Salem → Madurai</h4>
-                <p><strong>Class:</strong> AC</p>
-                <p><strong>Date:</strong> 20 Feb 2025</p>
-                <p><strong>Price:</strong> $40</p>
-                <button class="buy-btn">Buy Now</button>
-            </div>
-            <div class="ticket" data-type="Bus">
-                <h4>Bangalore → Erode</h4>
-                <p><strong>Class:</strong> Economy</p>
-                <p><strong>Date:</strong> 25 Feb 2025</p>
-                <p><strong>Price:</strong> $180</p>
-                <button class="buy-btn">Buy Now</button>
-            </div>
-            <div class="ticket" data-type="Bus">
-                <h4>Coimbatore → Theni</h4>
-                <p><strong>Class:</strong> Sleeper</p>
-                <p><strong>Date:</strong> 10 Mar 2025</p>
-                <p><strong>Price:</strong> $35</p>
-                <button class="buy-btn">Buy Now</button>
-            </div>
+            {% for ticket in tickets %}
+                <div class="ticket" data-type="{{ ticket.ticket_type }}">
+                    <!-- <img src="{{ ticket.ticket_image.url }}" alt="Ticket Image" style="max-width: 100%; height: auto;" /> -->
+                    <h4>{{ ticket.destination }}</h4>
+                    <p><strong>Date:</strong> {{ ticket.departure_date }}</p>
+                    <p><strong>Time:</strong> {{ ticket.departure_time }}</p>
+                    <p><strong>Type:</strong> {{ ticket.ticket_type }}</p>
+                    <p><strong>Price:</strong> ${{ ticket.price }}</p>
+                    <form method="POST" action="{% url 'buy_ticket' ticket.id %}">
+                        {% csrf_token %}
+                        <button class="buy-btn" type="submit">Buy Now</button>
+                    </form>                    
+                </div>
+            {% empty %}
+                <p>No tickets available at the moment.</p>
+            {% endfor %}
         </div>
     </section>
 
-    <script src="{% static 'js/script.js' %}"></script>
+    <footer>
+        <p>&copy; 2025 TravelBridge. All rights reserved.</p>
+    </footer>
+
 </body>
 </html>

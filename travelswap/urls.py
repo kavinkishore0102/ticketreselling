@@ -28,4 +28,8 @@ urlpatterns = [
     path('success/', views.success_view, name='success'),
     path('',views.home,name='home'),
     path('about/', views.about, name='about'), 
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path('buy/<int:ticket_id>/', views.buy_ticket, name='buy_ticket'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

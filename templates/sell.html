@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TravelBridge - Home</title>
-    <link rel="stylesheet" href="{% static 'css/global.css'%}">
+    <title>TravelBridge - Sell Ticket</title>
+    <link rel="stylesheet" href="{% static 'css/global.css' %}">
     <link rel="stylesheet" href="{% static 'css/sell.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
@@ -16,7 +16,7 @@
             <a href="{% url 'home' %}">Home</a>
             <a href="{% url 'sell_ticket' %}">Sell Tickets</a>
             <a href="{% url 'about' %}">About</a>
-                <div class="auth-buttons">
+            <div class="auth-buttons">
                 <button class="login">Login</button>
                 <button class="signup">Sign Up</button>
             </div>
@@ -27,31 +27,19 @@
         <div class="container">
             <h1>Sell Your Ticket</h1>
             <p>Upload your ticket and set the price for potential buyers.</p>
-            <form action="upload_ticket.php" method="POST" enctype="multipart/form-data">
-                
-                <label for="ticketUpload">Upload Ticket (Image/PDF):</label>
-                <input type="file" id="ticketUpload" name="ticketUpload" accept="image/*,application/pdf" required>
-                
-                <label for="destination">Destination:</label>
-                <input type="text" id="destination" name="destination" placeholder="Enter destination" required>
-                
-                <label for="departureDate">Departure Date:</label>
-                <input type="date" id="departureDate" name="departureDate" required>
 
-                <label for="departureTime">Departure Time:</label>
-                <input type="time" id="departureTime" name="departureTime" required>
-                
-                <label for="ticketCategory">Ticket Type:</label>
-                <select id="ticketCategory" name="ticketCategory">
-                    <option value="bus">Bus</option>
-                    <option value="train">Train</option>
-                    <option value="flight">Flight</option>
-                </select>
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
 
-                <label for="price">Set Price ($):</label>
-                <input type="number" id="price" name="price" placeholder="Enter price" required>
-
-                <button type="submit" class="submit-btn">Upload Ticket</button>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Upload Ticket</button>
             </form>
         </div>
     </section>
