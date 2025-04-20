@@ -24,11 +24,12 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('sell/', views.sell_ticket, name='sell_ticket'),
+    path('sell/', views.upload_ticket, name='sell_ticket'),
+    path('sell/<int:ticket_id>/', views.sell_ticket, name='confirm_sale'), 
     path('success/', views.success_view, name='success'),
+    path('buy/<int:ticket_id>/', views.buy_ticket, name='buy_ticket'),
     path('',views.home,name='home'),
     path('about/', views.about, name='about'), 
-    path('buy/<int:ticket_id>/', views.buy_ticket, name='buy_ticket'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

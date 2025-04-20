@@ -16,6 +16,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('ticket_image', models.FileField(upload_to='uploads/')),
+                ('source', models.CharField(max_length=100)),
                 ('destination', models.CharField(max_length=100)),
                 ('departure_date', models.DateField()),
                 ('departure_time', models.TimeField()),

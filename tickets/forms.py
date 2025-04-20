@@ -4,7 +4,7 @@ from .models import Ticket
 class TicketForm(forms.ModelForm):
     class Meta:
         model = Ticket
-        fields = ['ticket_image', 'destination', 'departure_date', 
+        fields = ['ticket_image','source','destination', 'departure_date', 
                  'departure_time', 'ticket_type', 'price']
         widgets = {
             'departure_date': forms.DateInput(attrs={'type': 'date'}),

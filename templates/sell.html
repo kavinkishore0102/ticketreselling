@@ -26,7 +26,7 @@
     <section class="sell-form">
         <div class="container">
             <h1>Sell Your Ticket</h1>
-            <p>Upload your ticket and set the price for potential buyers.</p>
+            <p>Upload your ticket or confirm the sale with buyer details.</p>
 
             {% if messages %}
                 <ul class="messages">
@@ -36,11 +36,36 @@
                 </ul>
             {% endif %}
 
-            <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Upload Ticket</button>
-            </form>
+            {% if form %}
+                <!-- Ticket upload form -->
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Upload Ticket</button>
+                </form>
+
+            {% elif ticket %}
+                <!-- Ticket selling confirmation form -->
+                <div class="ticket-details">
+                    <p><strong>Source:</strong> {{ticket.Source}}
+                    <p><strong>Destination:</strong> {{ ticket.destination }}</p>
+                    <p><strong>Departure Date:</strong> {{ ticket.departure_date }}</p>
+                    <p><strong>Departure Time:</strong> {{ ticket.departure_time }}</p>
+                    <p><strong>Ticket Type:</strong> {{ ticket.ticket_type }}</p>
+                    <p><strong>Price:</strong> ₹{{ ticket.price }}</p>
+                </div>
+
+                <form method="POST">
+                    {% csrf_token %}
+                    <label>Buyer Name:</label><br>
+                    <input type="text" name="buyer_name" required><br><br>
+
+                    <label>Buyer Email:</label><br>
+                    <input type="email" name="buyer_email" required><br><br>
+
+                    <button type="submit">Confirm Sale</button>
+                </form>
+            {% endif %}
         </div>
     </section>
 
