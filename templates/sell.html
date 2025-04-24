@@ -38,13 +38,13 @@
 
             {% if form %}
                 <!-- Ticket upload form -->
-                <form method="POST" enctype="multipart/form-data">
+                <form id="upload-form" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
 
                     <!-- Custom wrapper for file input + Check Price button -->
                     <div class="file-check-wrapper">
-                        <label for="id_ticket_image">Ticket Image:</label><br>
-                        <input type="file" name="ticket_image" id="id_ticket_image">
+                        <label for="id_ticket_image">Ticket Image:</label>
+                        <input type="file" name="ticket_image" id="id_ticket_image"><br><br>
                         <button type="button" id="check-price-btn">Check Price</button>
                     </div>
 
@@ -81,17 +81,21 @@
                 </form>
             {% endif %}
         </div>
+
+
         <script>
+            let extractedPrice = null;  // <-- Add this line
+        
             document.getElementById("check-price-btn")?.addEventListener("click", function () {
                 const fileInput = document.getElementById("id_ticket_image");
                 if (!fileInput || !fileInput.files.length) {
                     alert("Please select a ticket image first.");
                     return;
                 }
-            
+        
                 const formData = new FormData();
                 formData.append("ticket_image", fileInput.files[0]);
-            
+        
                 fetch("{% url 'check_price' %}", {
                     method: "POST",
                     headers: {
@@ -102,7 +106,8 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        alert("Extracted Price: ₹" + data.price);
+                        extractedPrice = parseFloat(data.price);  // Store the price
+                        alert("Extracted Price: ₹" + extractedPrice);
                     } else {
                         alert("Error: " + data.error);
                     }
@@ -112,7 +117,21 @@
                     alert("Something went wrong. Please try again.");
                 });
             });
-            </script>
+        
+            document.getElementById("upload-form").addEventListener("submit", function (e) {
+                const userPrice = parseFloat(document.getElementById("id_price").value);
+                if (extractedPrice === null) {
+                    e.preventDefault();
+                    alert("Please click 'Check Price' to validate the ticket price before submitting.");
+                    return;
+                }
+        
+                if (extractedPrice !== null && userPrice > extractedPrice) {
+                    e.preventDefault();
+                    alert("Entered price cannot be greater than the extracted ticket price (₹" + extractedPrice + ")");
+                }
+            });
+        </script>   
     </section>
 
     <footer>

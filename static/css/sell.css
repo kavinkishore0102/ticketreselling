@@ -74,7 +74,6 @@ select {
 }
 
 .file-check-wrapper {
-    display: flex;
     align-items: center;
     gap: 10px;
     margin-bottom: 15px;
@@ -83,11 +82,13 @@ select {
 #check-price-btn {
     background-color: #007bff;
     color: white;
+    font-weight: 600;
     border: none;
-    padding: 8px 12px;
+    padding: 6px 10px;
+    font-size: 16px;
     border-radius: 5px;
-    font-size: 14px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 #check-price-btn:hover {
