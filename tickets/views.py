@@ -73,9 +73,7 @@ def success_page(request):
 
 def find_price(request):
     return 0
-
-
-
+ 
 def check_ticket_price(request):
     if request.method == "POST" and request.FILES.get("ticket_image"):
         image_file = request.FILES["ticket_image"]
@@ -83,6 +81,7 @@ def check_ticket_price(request):
 
         extracted_text = extract_text_from_image(image)
         total_cost = find_total_cost(extracted_text)
+        print(total_cost)
 
         if total_cost is not None:
             return JsonResponse({"success": True, "price": total_cost})
