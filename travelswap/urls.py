@@ -30,6 +30,7 @@ urlpatterns = [
     path('buy/<int:ticket_id>/', views.buy_ticket, name='buy_ticket'),
     path('',views.home,name='home'),
     path('about/', views.about, name='about'), 
+    path('check-price/', views.check_ticket_price, name='check_price'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

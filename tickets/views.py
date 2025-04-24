@@ -10,6 +10,8 @@ from django.http import HttpResponse
 from django.db import transaction
 from .forms import TicketForm
 from .models import Ticket, SoldTicket
+from django.http import JsonResponse 
+from .utils.ocr_utils import extract_text_from_image, find_total_cost
 
 def home(request):
     tickets = Ticket.objects.all().order_by('-uploaded_at')[:8]
@@ -71,3 +73,19 @@ def success_page(request):
 
 def find_price(request):
     return 0
+
+
+
+def check_ticket_price(request):
+    if request.method == "POST" and request.FILES.get("ticket_image"):
+        image_file = request.FILES["ticket_image"]
+        image = Image.open(image_file)
+
+        extracted_text = extract_text_from_image(image)
+        total_cost = find_total_cost(extracted_text)
+
+        if total_cost is not None:
+            return JsonResponse({"success": True, "price": total_cost})
+        else:
+            return JsonResponse({"success": False, "error": "Could not extract price."})
+    return JsonResponse({"success": False, "error": "Invalid request."})

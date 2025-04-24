@@ -40,14 +40,28 @@
                 <!-- Ticket upload form -->
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit">Upload Ticket</button>
+
+                    <!-- Custom wrapper for file input + Check Price button -->
+                    <div class="file-check-wrapper">
+                        <label for="id_ticket_image">Ticket Image:</label><br>
+                        <input type="file" name="ticket_image" id="id_ticket_image">
+                        <button type="button" id="check-price-btn">Check Price</button>
+                    </div>
+
+                    {{ form.source.label_tag }} {{ form.source }}
+                    {{ form.destination.label_tag }} {{ form.destination }}
+                    {{ form.departure_date.label_tag }} {{ form.departure_date }}
+                    {{ form.departure_time.label_tag }} {{ form.departure_time }}
+                    {{ form.ticket_type.label_tag }} {{ form.ticket_type }}
+                    {{ form.price.label_tag }} {{ form.price }}
+
+                    <button type="submit" class="submit-btn">Upload Ticket</button>
                 </form>
 
             {% elif ticket %}
                 <!-- Ticket selling confirmation form -->
                 <div class="ticket-details">
-                    <p><strong>Source:</strong> {{ticket.Source}}
+                    <p><strong>Source:</strong> {{ ticket.Source }}</p>
                     <p><strong>Destination:</strong> {{ ticket.destination }}</p>
                     <p><strong>Departure Date:</strong> {{ ticket.departure_date }}</p>
                     <p><strong>Departure Time:</strong> {{ ticket.departure_time }}</p>
@@ -63,10 +77,42 @@
                     <label>Buyer Email:</label><br>
                     <input type="email" name="buyer_email" required><br><br>
 
-                    <button type="submit">Confirm Sale</button>
+                    <button type="submit" class="submit-btn">Confirm Sale</button>
                 </form>
             {% endif %}
         </div>
+        <script>
+            document.getElementById("check-price-btn")?.addEventListener("click", function () {
+                const fileInput = document.getElementById("id_ticket_image");
+                if (!fileInput || !fileInput.files.length) {
+                    alert("Please select a ticket image first.");
+                    return;
+                }
+            
+                const formData = new FormData();
+                formData.append("ticket_image", fileInput.files[0]);
+            
+                fetch("{% url 'check_price' %}", {
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": "{{ csrf_token }}",
+                    },
+                    body: formData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Extracted Price: ₹" + data.price);
+                    } else {
+                        alert("Error: " + data.error);
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Something went wrong. Please try again.");
+                });
+            });
+            </script>
     </section>
 
     <footer>
