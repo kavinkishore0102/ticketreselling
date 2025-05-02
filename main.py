@@ -45,6 +45,6 @@ def main():
             st.success(f"**Total Cost:** Rs {total_cost:.2f}")
         else:
             st.warning("Could not find the total cost in the extracted text.")
-
+# main function
 if __name__ == "__main__":
     main()
